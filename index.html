@@ -125,26 +125,26 @@
 </div>
 
 <script>
-    // ⚠️ BƯỚC QUAN TRỌNG NHẤT:
-    // Hãy thay chuỗi DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY bên dưới bằng API Key bạn lấy từ Google
-    const API_KEY = "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY";
+    // ⚠️ BƯỚC BẮT BUỘC:
+    // Hãy thay đoạn "AIzaSy_THAY_KEY_THẬT_CỦA_BẠN_VÀO_ĐÂY" bên dưới bằng mã Key lấy từ https://aistudio.google.com
+    const API_KEY = "AIzaSy_THAY_KEY_THẬT_CỦA_BẠN_VÀO_ĐÂY";
 
     async function analyze() {
         const day = document.getElementById('day').value;
         const month = document.getElementById('month').value;
         const resultDiv = document.getElementById('result');
 
-        // Kiểm tra đầu vào
+        // Kiểm tra đầu vào ngày tháng
         if (!day || !month || day < 1 || day > 31 || month < 1 || month > 12) {
             alert("⚠️ Vui lòng nhập Ngày (1-31) và Tháng (1-12) hợp lệ!");
             return;
         }
 
-        // Kiểm tra xem đã dán API Key chưa
-        if (API_KEY === "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY" || API_KEY.trim() === "") {
+        // Kiểm tra xem đã thay key thật chưa
+        if (API_KEY.includes("THAY_KEY_THẬT") || API_KEY.trim() === "") {
             resultDiv.style.display = "block";
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ LỖI: Bạn chưa dán API Key vào file!\n\nHãy mở file index.html lên, tìm đến dòng có chữ API_KEY và dán mã key từ Google AI Studio vào giữa hai dấu ngoặc kép.";
+            resultDiv.innerText = "❌ LỖI: Bạn chưa dán API Key thật vào code!\n\nHãy mở file index.html lên, tìm đến dòng 115 và thay mã key lấy từ https://aistudio.google.com vào giữa hai dấu ngoặc kép.";
             return;
         }
 
@@ -155,7 +155,7 @@
 
         const promptText = `Bạn là một chuyên gia tâm lý và chiêm tinh. Hãy phân tích tính cách, điểm mạnh, điểm yếu và 1 lời khuyên ý nghĩa cho người sinh ngày ${day} tháng ${month}. Hãy viết bằng tiếng Việt, giọng văn ngắn gọn, chuẩn xác, hấp dẫn.`;
 
-        // Danh sách các mô hình AI để tự động thử
+        // Các mô hình Gemini để tự động chuyển đổi nếu có sự cố
         const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
         let isSuccess = false;
         let errorMessage = "";
@@ -187,7 +187,7 @@
 
         if (!isSuccess) {
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ Lỗi kết nối API: " + errorMessage + "\n\n👉 Vui lòng kiểm tra lại mã API Key xem có bị dán sai/thiếu ký tự không!";
+            resultDiv.innerText = "❌ Lỗi kết nối API: " + errorMessage + "\n\n👉 Kiểm tra lại mã API Key xem có bị dán thiếu ký tự hoặc copy nhầm không!";
         }
     }
 </script>
