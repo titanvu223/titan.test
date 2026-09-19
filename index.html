@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phân Tích Tính Cách AI Qua Ngày Sinh</title>
+    <title>Bói Tính Cách AI Qua Ngày Sinh</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,111 +12,126 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            color: #f8fafc;
         }
         .card {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            max-width: 420px;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 35px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            max-width: 450px;
             width: 100%;
             text-align: center;
         }
-        h2 {
-            color: #333;
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
-            font-size: 22px;
         }
         p.subtitle {
-            color: #666;
+            color: #94a3b8;
             font-size: 14px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             text-align: left;
         }
         label {
             display: block;
             margin-bottom: 6px;
+            font-size: 13px;
             font-weight: 600;
-            color: #444;
-            font-size: 14px;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #fff;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
         }
         input:focus {
-            border-color: #667eea;
+            border-color: #a855f7;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
         }
         button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 16px;
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 10px;
-            transition: opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
         }
         button:hover {
-            opacity: 0.9;
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+        }
+        button:active {
+            transform: translateY(0);
         }
         #result {
-            margin-top: 20px;
-            padding: 16px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
             text-align: left;
             white-space: pre-wrap;
-            line-height: 1.6;
-            color: #333;
-            font-size: 14px;
-            border: 1px solid #e2e8f0;
+            line-height: 1.7;
+            color: #e2e8f0;
+            font-size: 15px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
             display: none;
         }
         .loading {
-            color: #667eea !important;
-            font-style: italic;
             text-align: center !important;
-            border-color: #cbd5e1 !important;
+            color: #c084fc !important;
+            font-style: italic;
         }
         .error {
-            background-color: #fef2f2 !important;
-            color: #991b1b !important;
-            border-color: #fca5a5 !important;
+            background: rgba(127, 29, 29, 0.3) !important;
+            border-color: #ef4444 !important;
+            color: #fca5a5 !important;
         }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>🔮 Bói Tính Cách AI</h2>
-    <p class="subtitle">Khám phá bản thân qua Ngày & Tháng sinh</p>
+    <h1>🔮 Phân Tích Tính Cách AI</h1>
+    <p class="subtitle">Nhập Ngày & Tháng sinh để AI luận giải bản thân</p>
     
     <div class="form-group">
-        <label for="day">1. Ngày sinh (1 - 31):</label>
-        <input type="number" id="day" min="1" max="31" placeholder="Nhập ngày (Ví dụ: 15)">
+        <label for="day">Ngày sinh (1 - 31)</label>
+        <input type="number" id="day" min="1" max="31" placeholder="Ví dụ: 15">
     </div>
 
     <div class="form-group">
-        <label for="month">2. Tháng sinh (1 - 12):</label>
-        <input type="number" id="month" min="1" max="12" placeholder="Nhập tháng (Ví dụ: 8)">
+        <label for="month">Tháng sinh (1 - 12)</label>
+        <input type="number" id="month" min="1" max="12" placeholder="Ví dụ: 8">
     </div>
 
     <button onclick="analyze()">XÁC NHẬN & PHÂN TÍCH</button>
@@ -125,37 +140,34 @@
 </div>
 
 <script>
-    // ⚠️ BƯỚC BẮT BUỘC:
-    // Hãy thay đoạn "AIzaSy_THAY_KEY_THẬT_CỦA_BẠN_VÀO_ĐÂY" bên dưới bằng mã Key lấy từ https://aistudio.google.com
-    const API_KEY = "AIzaSy_THAY_KEY_THẬT_CỦA_BẠN_VÀO_ĐÂY";
+    // =========================================================================
+    // ⚠️ CHỈ CẦN DÁN MÃ API KEY CỦA BẠN VÀO GIỮA HAI DẤU NGOẶC KÉP Ở DÒNG DƯỚI:
+    // =========================================================================
+    const API_KEY = "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY";
 
     async function analyze() {
         const day = document.getElementById('day').value;
         const month = document.getElementById('month').value;
         const resultDiv = document.getElementById('result');
 
-        // Kiểm tra đầu vào ngày tháng
         if (!day || !month || day < 1 || day > 31 || month < 1 || month > 12) {
-            alert("⚠️ Vui lòng nhập Ngày (1-31) và Tháng (1-12) hợp lệ!");
+            alert("⚠️ Vui lòng nhập ngày (1-31) và tháng (1-12) hợp lệ!");
             return;
         }
 
-        // Kiểm tra xem đã thay key thật chưa
-        if (API_KEY.includes("THAY_KEY_THẬT") || API_KEY.trim() === "") {
-            resultDiv.style.display = "block";
-            resultDiv.className = "error";
-            resultDiv.innerText = "❌ LỖI: Bạn chưa dán API Key thật vào code!\n\nHãy mở file index.html lên, tìm đến dòng 115 và thay mã key lấy từ https://aistudio.google.com vào giữa hai dấu ngoặc kép.";
-            return;
-        }
-
-        // Hiển thị trạng thái đang tải
         resultDiv.style.display = "block";
+
+        if (API_KEY === "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY" || API_KEY.trim() === "") {
+            resultDiv.className = "error";
+            resultDiv.innerText = "❌ LỖI SETUP:\nFile index.html chưa được dán API Key. Hãy mở file và thay chuỗi 'DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY' bằng API Key thật của bạn!";
+            return;
+        }
+
         resultDiv.className = "loading";
-        resultDiv.innerText = "⏳ AI đang suy nghĩ và đọc tính cách của bạn, vui lòng đợi vài giây...";
+        resultDiv.innerText = "✨ AI đang giải mã ngày sinh của bạn, vui lòng đợi trong giây lát...";
 
-        const promptText = `Bạn là một chuyên gia tâm lý và chiêm tinh. Hãy phân tích tính cách, điểm mạnh, điểm yếu và 1 lời khuyên ý nghĩa cho người sinh ngày ${day} tháng ${month}. Hãy viết bằng tiếng Việt, giọng văn ngắn gọn, chuẩn xác, hấp dẫn.`;
+        const promptText = `Bạn là một chuyên gia tâm lý và thần số học. Hãy phân tích tính cách, điểm mạnh, điểm yếu và 1 lời khuyên ngắn cho người sinh ngày ${day} tháng ${month}. Hãy viết bằng tiếng Việt, trình bày đẹp mắt, giọng văn hấp dẫn.`;
 
-        // Các mô hình Gemini để tự động chuyển đổi nếu có sự cố
         const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
         let isSuccess = false;
         let errorMessage = "";
@@ -187,7 +199,7 @@
 
         if (!isSuccess) {
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ Lỗi kết nối API: " + errorMessage + "\n\n👉 Kiểm tra lại mã API Key xem có bị dán thiếu ký tự hoặc copy nhầm không!";
+            resultDiv.innerText = "❌ Lỗi kết nối Google AI: " + errorMessage + "\n\nVui lòng kiểm tra lại xem API Key có bị dán sai hoặc bị ngắt kích hoạt trên Google Studio không!";
         }
     }
 </script>
