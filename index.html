@@ -3,36 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phân Tích Tính Cách Qua Ngày Sinh</title>
+    <title>Phân Tích Tính Cách AI Qua Ngày Sinh</title>
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             padding: 20px;
         }
-        .container {
+        .card {
             background: #ffffff;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 420px;
             width: 100%;
             text-align: center;
         }
         h2 {
-            color: #1a73e8;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 22px;
+        }
+        p.subtitle {
+            color: #666;
+            font-size: 14px;
             margin-bottom: 24px;
         }
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             text-align: left;
         }
         label {
@@ -40,18 +47,24 @@
             margin-bottom: 6px;
             font-weight: 600;
             color: #444;
+            font-size: 14px;
         }
         input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #667eea;
         }
         button {
             width: 100%;
             padding: 14px;
-            background-color: #1a73e8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -59,85 +72,93 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            transition: opacity 0.2s;
         }
         button:hover {
-            background-color: #1557b0;
+            opacity: 0.9;
         }
         #result {
-            margin-top: 24px;
+            margin-top: 20px;
             padding: 16px;
             background: #f8f9fa;
-            border-left: 4px solid #1a73e8;
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: left;
             white-space: pre-wrap;
             line-height: 1.6;
             color: #333;
-            font-size: 15px;
-            min-height: 60px;
+            font-size: 14px;
+            border: 1px solid #e2e8f0;
+            display: none;
         }
         .loading {
-            color: #666;
+            color: #667eea !important;
             font-style: italic;
+            text-align: center !important;
+            border-color: #cbd5e1 !important;
         }
         .error {
-            border-left-color: #d93025 !important;
-            color: #d93025 !important;
-            background: #fce8e6 !important;
+            background-color: #fef2f2 !important;
+            color: #991b1b !important;
+            border-color: #fca5a5 !important;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Phân Tích Tính Cách AI</h2>
+<div class="card">
+    <h2>🔮 Bói Tính Cách AI</h2>
+    <p class="subtitle">Khám phá bản thân qua Ngày & Tháng sinh</p>
     
     <div class="form-group">
-        <label for="day">Ngày sinh (1 - 31):</label>
-        <input type="number" id="day" min="1" max="31" placeholder="Ví dụ: 15">
+        <label for="day">1. Ngày sinh (1 - 31):</label>
+        <input type="number" id="day" min="1" max="31" placeholder="Nhập ngày (Ví dụ: 15)">
     </div>
 
     <div class="form-group">
-        <label for="month">Tháng sinh (1 - 12):</label>
-        <input type="number" id="month" min="1" max="12" placeholder="Ví dụ: 8">
+        <label for="month">2. Tháng sinh (1 - 12):</label>
+        <input type="number" id="month" min="1" max="12" placeholder="Nhập tháng (Ví dụ: 8)">
     </div>
 
-    <button onclick="analyzePersonality()">Xác Nhận & Phân Tích</button>
+    <button onclick="analyze()">XÁC NHẬN & PHÂN TÍCH</button>
 
-    <div id="result">Kết quả phân tích sẽ xuất hiện ở đây...</div>
+    <div id="result"></div>
 </div>
 
 <script>
-    // -------------------------------------------------------------
-    // THAY API KEY CỦA BẠN VÀO GIỮA 2 DẤU NGOẶC KÉP Ở DƯỚI:
-    // -------------------------------------------------------------
+    // ⚠️ BƯỚC QUAN TRỌNG NHẤT:
+    // Hãy thay chuỗi DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY bên dưới bằng API Key bạn lấy từ Google
     const API_KEY = "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY";
 
-    async function analyzePersonality() {
+    async function analyze() {
         const day = document.getElementById('day').value;
         const month = document.getElementById('month').value;
         const resultDiv = document.getElementById('result');
 
+        // Kiểm tra đầu vào
         if (!day || !month || day < 1 || day > 31 || month < 1 || month > 12) {
-            alert("Vui lòng nhập ngày (1-31) và tháng (1-12) hợp lệ!");
+            alert("⚠️ Vui lòng nhập Ngày (1-31) và Tháng (1-12) hợp lệ!");
             return;
         }
 
+        // Kiểm tra xem đã dán API Key chưa
         if (API_KEY === "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY" || API_KEY.trim() === "") {
+            resultDiv.style.display = "block";
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ Bạn chưa dán API Key vào file! Hãy mở file index.html lên và thay thế đoạn 'DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY' bằng mã Key thật lấy từ Google AI Studio.";
+            resultDiv.innerText = "❌ LỖI: Bạn chưa dán API Key vào file!\n\nHãy mở file index.html lên, tìm đến dòng có chữ API_KEY và dán mã key từ Google AI Studio vào giữa hai dấu ngoặc kép.";
             return;
         }
 
+        // Hiển thị trạng thái đang tải
+        resultDiv.style.display = "block";
         resultDiv.className = "loading";
-        resultDiv.innerText = "⏳ AI đang kết nối và phân tích, vui lòng đợi tí nhé...";
+        resultDiv.innerText = "⏳ AI đang suy nghĩ và đọc tính cách của bạn, vui lòng đợi vài giây...";
 
-        const promptText = `Hãy phân tích tính cách, điểm mạnh, điểm yếu và lời khuyên cho một người sinh ngày ${day} tháng ${month}. Trình bày ngắn gọn, thú vị bằng tiếng Việt.`;
+        const promptText = `Bạn là một chuyên gia tâm lý và chiêm tinh. Hãy phân tích tính cách, điểm mạnh, điểm yếu và 1 lời khuyên ý nghĩa cho người sinh ngày ${day} tháng ${month}. Hãy viết bằng tiếng Việt, giọng văn ngắn gọn, chuẩn xác, hấp dẫn.`;
 
-        // Danh sách các phiên bản mô hình của Gemini để tự động thử lại nếu có lỗi
+        // Danh sách các mô hình AI để tự động thử
         const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
-        let success = false;
-        let lastError = "";
+        let isSuccess = false;
+        let errorMessage = "";
 
         for (const model of models) {
             try {
@@ -154,19 +175,19 @@
                 if (response.ok && data.candidates && data.candidates[0].content.parts[0].text) {
                     resultDiv.className = "";
                     resultDiv.innerText = data.candidates[0].content.parts[0].text;
-                    success = true;
+                    isSuccess = true;
                     break;
                 } else if (data.error) {
-                    lastError = data.error.message;
+                    errorMessage = data.error.message;
                 }
             } catch (err) {
-                lastError = err.message;
+                errorMessage = err.message;
             }
         }
 
-        if (!success) {
+        if (!isSuccess) {
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ Lỗi API: " + lastError + "\n\n👉 Hãy kiểm tra lại API Key xem đã tạo đúng trên https://aistudio.google.com/ chưa!";
+            resultDiv.innerText = "❌ Lỗi kết nối API: " + errorMessage + "\n\n👉 Vui lòng kiểm tra lại mã API Key xem có bị dán sai/thiếu ký tự không!";
         }
     }
 </script>
