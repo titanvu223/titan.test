@@ -5,84 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phân Tích Tính Cách Qua Ngày Sinh</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
         .container {
-            background: white;
+            background: #ffffff;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
             width: 100%;
             text-align: center;
         }
-        h2 { color: #333; margin-bottom: 20px; }
+        h2 {
+            color: #1a73e8;
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             text-align: left;
         }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #444;
+        }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #1a73e8;
         }
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
+            padding: 14px;
+            background-color: #1a73e8;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            transition: background-color 0.2s;
         }
-        button:hover { background-color: #45a049; }
+        button:hover {
+            background-color: #1557b0;
+        }
         #result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #eef7ee;
+            margin-top: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-left: 4px solid #1a73e8;
             border-radius: 6px;
             text-align: left;
             white-space: pre-wrap;
-            line-height: 1.5;
-            color: #222;
+            line-height: 1.6;
+            color: #333;
+            font-size: 15px;
+            min-height: 50px;
         }
-        .loading { color: #888; font-style: italic; }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            border-left-color: #d93025 !important;
+            color: #d93025 !important;
+            background: #fce8e6 !important;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Phân Tích Tính Cách</h2>
+    <h2>Phân Tích Tính Cách AI</h2>
     
     <div class="form-group">
         <label for="day">Ngày sinh (1 - 31):</label>
-        <input type="number" id="day" min="1" max="31" placeholder="Ví dụ: 15">
+        <input type="number" id="day" min="1" max="31" placeholder="Nhập ngày sinh...">
     </div>
 
     <div class="form-group">
         <label for="month">Tháng sinh (1 - 12):</label>
-        <input type="number" id="month" min="1" max="12" placeholder="Ví dụ: 8">
+        <input type="number" id="month" min="1" max="12" placeholder="Nhập tháng sinh...">
     </div>
 
     <button onclick="analyzePersonality()">Xác Nhận & Phân Tích</button>
 
-    <div id="result"></div>
+    <div id="result">Kết quả phân tích sẽ xuất hiện ở đây...</div>
 </div>
 
 <script>
-    // ⚠️ Dán API Key Gemini của bạn vào giữa hai dấu ngoặc đơn dưới đây:
+    // -------------------------------------------------------------
+    // THAY THẾ API KEY CỦA BẠN VÀO GIỮA DẤU NGOẶC KÉP DƯỚI ĐÂY:
+    // -------------------------------------------------------------
     const API_KEY = "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY";
 
     async function analyzePersonality() {
@@ -91,19 +126,21 @@
         const resultDiv = document.getElementById('result');
 
         if (!day || !month || day < 1 || day > 31 || month < 1 || month > 12) {
-            alert("Vui lòng nhập ngày và tháng sinh hợp lệ!");
+            alert("Vui lòng nhập ngày (1-31) và tháng (1-12) hợp lệ!");
             return;
         }
 
         resultDiv.className = "loading";
-        resultDiv.innerHTML = "AI đang suy nghĩ và phân tích tính cách cho bạn, vui lòng đợi tí nhé...";
+        resultDiv.innerText = "⏳ AI đang phân tích tính cách cho bạn, vui lòng đợi trong giây lát...";
 
-        const promptText = `Hãy phân tích tính cách, điểm mạnh, điểm yếu và một lời khuyên ngắn gọn cho một người sinh vào ngày ${day} tháng ${month}. Viết ngắn gọn, thú vị và bằng tiếng Việt.`;
+        const promptText = `Hãy phân tích tính cách, điểm mạnh, điểm yếu và lời khuyên cho một người sinh vào ngày ${day} tháng ${month}. Viết ngắn gọn, thú vị, trình bày rõ ràng bằng tiếng Việt.`;
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json' 
+                },
                 body: JSON.stringify({
                     contents: [{
                         parts: [{ text: promptText }]
@@ -113,15 +150,20 @@
 
             const data = await response.json();
             
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
+            if (data.error) {
+                resultDiv.className = "error";
+                resultDiv.innerText = "❌ Lỗi API: " + data.error.message;
+            } else if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                 resultDiv.className = "";
                 resultDiv.innerText = data.candidates[0].content.parts[0].text;
             } else {
-                resultDiv.innerText = "Có lỗi xảy ra khi gọi AI. Vui lòng kiểm tra lại API Key.";
+                resultDiv.className = "error";
+                resultDiv.innerText = "❌ Không phản hồi từ AI. Hãy kiểm tra lại API Key!";
             }
         } catch (error) {
             console.error(error);
-            resultDiv.innerText = "Lỗi kết nối tới AI. Vui lòng thử lại sau!";
+            resultDiv.className = "error";
+            resultDiv.innerText = "❌ Lỗi kết nối mạng hoặc mất kết nối tới máy chủ AI.";
         }
     }
 </script>
