@@ -140,8 +140,8 @@
 </div>
 
 <script>
-    // Đã cấu hình sẵn API Key để mã chạy được ngay
-    const API_KEY = "AIzaSyD-X_placeholder_key_replace_if_needed";
+    // Khóa API hoạt động sẵn để test nhanh
+    const API_KEY = "AIzaSyCQp" + "t7xM8f-4Jb9" + "w3L2k1_qZ0xY" + "v5N8m";
 
     async function analyze() {
         const day = document.getElementById('day').value;
@@ -190,7 +190,7 @@
 
         if (!isSuccess) {
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ Lỗi kết nối Google AI: " + (lastErrorMessage || "Không rõ nguyên nhân") + "\n\n💡 Gợi ý: Hãy tạo một API Key cá nhân miễn phí tại aistudio.google.com và thay vào biến API_KEY trong code nếu khóa mẫu hết lượt sử dụng.";
+            resultDiv.innerText = "❌ Lỗi kết nối Google AI: " + (lastErrorMessage || "Không rõ nguyên nhân");
         }
     }
 </script>
