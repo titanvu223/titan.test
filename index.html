@@ -141,7 +141,7 @@
 
 <script>
     // =========================================================================
-    // ⚠️ CHỈ CẦN DÁN MÃ API KEY CỦA BẠN VÀO GIỮA HAI DẤU NGOẶC KÉP Ở DÒNG DƯỚI:
+    // ⚠️ DÁN API KEY CỦA BẠN VÀO ĐÂY:
     // =========================================================================
     const API_KEY = "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY";
 
@@ -159,7 +159,7 @@
 
         if (API_KEY === "DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY" || API_KEY.trim() === "") {
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ LỖI SETUP:\nFile index.html chưa được dán API Key. Hãy mở file và thay chuỗi 'DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY' bằng API Key thật của bạn!";
+            resultDiv.innerText = "❌ LỖI SETUP:\nFile chưa được dán API Key. Hãy thay chuỗi 'DÁN_API_KEY_CỦA_BẠN_VÀO_ĐÂY' bằng API Key thật của bạn!";
             return;
         }
 
@@ -168,9 +168,10 @@
 
         const promptText = `Bạn là một chuyên gia tâm lý và thần số học. Hãy phân tích tính cách, điểm mạnh, điểm yếu và 1 lời khuyên ngắn cho người sinh ngày ${day} tháng ${month}. Hãy viết bằng tiếng Việt, trình bày đẹp mắt, giọng văn hấp dẫn.`;
 
-        const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+        // Danh sách các model chuẩn xác nhất hiện nay
+        const models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash"];
         let isSuccess = false;
-        let errorMessage = "";
+        let lastErrorMessage = "";
 
         for (const model of models) {
             try {
@@ -184,22 +185,22 @@
 
                 const data = await response.json();
 
-                if (response.ok && data.candidates && data.candidates[0].content.parts[0].text) {
+                if (response.ok && data.candidates && data.candidates.length > 0) {
                     resultDiv.className = "";
                     resultDiv.innerText = data.candidates[0].content.parts[0].text;
                     isSuccess = true;
                     break;
                 } else if (data.error) {
-                    errorMessage = data.error.message;
+                    lastErrorMessage = data.error.message;
                 }
             } catch (err) {
-                errorMessage = err.message;
+                lastErrorMessage = err.message;
             }
         }
 
         if (!isSuccess) {
             resultDiv.className = "error";
-            resultDiv.innerText = "❌ Lỗi kết nối Google AI: " + errorMessage + "\n\nVui lòng kiểm tra lại xem API Key có bị dán sai hoặc bị ngắt kích hoạt trên Google Studio không!";
+            resultDiv.innerText = "❌ Lỗi kết nối Google AI: " + (lastErrorMessage || "Không rõ nguyên nhân") + "\n\nVui lòng kiểm tra lại API Key hoặc kết nối mạng của bạn!";
         }
     }
 </script>
